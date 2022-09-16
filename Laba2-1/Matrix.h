@@ -9,6 +9,7 @@
 Х оператор делени€ матрицы на скал€р;
 Х вычисление следа матрицы.
 «јƒј„ј : ѕривести заданную квадратную матрицу ј к нижнетреугольному виду. */
+#include <iostream>
 class Matrix {
 private:
 	int n;
@@ -21,5 +22,9 @@ public:
 	void Print();
 	int Getm();
 	int Getn();
+	double& operator ()(int i, int j, double data);
+	Matrix operator + (Matrix& B);
+	Matrix operator - (Matrix& B);
+	Matrix operator * (Matrix& B);
 	~Matrix();
 };
