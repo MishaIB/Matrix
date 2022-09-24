@@ -26,5 +26,9 @@ public:
 	Matrix operator + (Matrix& B);
 	Matrix operator - (Matrix& B);
 	Matrix operator * (Matrix& B);
+	Matrix operator * (double a);
+	Matrix operator / (double a);
+	double trace();
+	Matrix triangular();
 	~Matrix();
 };

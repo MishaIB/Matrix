@@ -7,9 +7,9 @@
 Х оператор() дл€ чтени€ / записи элемента матрицы по указанным индексам;*
 Х операторы сложени€ и вычитани€ матриц;**
 Х оператор умножени€ матриц;**
-Х оператор умножени€ матрицы на скал€р(обеспечить коммутативность);
-Х оператор делени€ матрицы на скал€р;
-Х вычисление следа матрицы.
+Х оператор умножени€ матрицы на скал€р(обеспечить коммутативность);**
+Х оператор делени€ матрицы на скал€р;**
+Х вычисление следа матрицы.**
 «јƒј„ј : ѕривести заданную квадратную матрицу ј к нижнетреугольному виду. */
 using namespace std;
 Matrix::Matrix() {
@@ -96,7 +96,49 @@ double& Matrix::operator ()(int i, int j, double data)
 	 }
 	 return tmp;
  }
-Matrix::~Matrix() {
+ Matrix Matrix::operator * (double a) {
+	 Matrix tmp(m, n);
+	 for (int i = 0; i < m; i++) {
+		 for (int j = 0; j < n; j++) {
+			 tmp.M[i][j] += M[i][j] * a;
+		 }
+	 }
+	 return tmp;
+ }
+ Matrix Matrix::operator / (double a) {
+	 //добавить искл
+	 Matrix tmp(m, n);
+	 for (int i = 0; i < m; i++) {
+		 for (int j = 0; j < n; j++) {
+			 tmp.M[i][j] += M[i][j] / a;
+		 }
+	 }
+	 return tmp;
+ }
+ double Matrix::trace() {
+	 //добавить искл
+	 double sum = 0;
+	 for (int i = 0; i < m; i++) {
+		 for (int j = 0; j < n; j++) {
+			 if (i == j) {
+				 sum += M[i][j];
+			 }
+		 }
+	 }
+	 return sum;
+ }
+ Matrix Matrix::triangular() {
+	 int countswap = 1;
+	 Matrix B(M);
+	 for (int i = 0; i < m; i++) {
+		 for (int j = 0; j < n; j++) {
 
+		 }
+	}
+ }
+
+
+Matrix::~Matrix() {
+	for (int i = 0; i < m; i++) delete[]M;
 	delete[]M;
 }
