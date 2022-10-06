@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include <iostream>
+#include "Exteption.h"
 /* Вариант 2. Матрицы
 Класс матриц вещественных чисел произвольного размера.
 Как минимум, предоставить:
@@ -17,6 +18,8 @@ Matrix::Matrix() {
 	int n = 0;
 	double**M = nullptr;
 }
+
+
 Matrix::Matrix(int n_, int m_) {
 	int n = n_;
 	int m = m_;
@@ -25,6 +28,7 @@ Matrix::Matrix(int n_, int m_) {
 		M[i] = new double [n];
 	}
 }
+
 
 Matrix::Matrix(const Matrix* M_) {
 	m = M_->m;
@@ -39,12 +43,18 @@ Matrix::Matrix(const Matrix* M_) {
 		}
 	}
 }
+
+
 int Matrix::Getm() {
 	return m;
 }
+
+
 int Matrix::Getn() {
 	return n;
 }
+
+
 void Matrix::Print() {
 	for (int i = 0; i < m; i++) {
 		for (int j = 0; j < n; j++) {
@@ -53,11 +63,19 @@ void Matrix::Print() {
 	}
 
 }
-double& Matrix::operator ()(int i, int j, double data)
+
+
+double& Matrix::operator ()(int i, int j)
 {
-	return M[i][j];
+	if ((i >= 0) && (i < m) && (j >= 0) && (j < n))
+		return M[i][j];
+	else throw EInvalidIndex();
 }
+
+
  Matrix Matrix::operator + (Matrix& B) {
+
+	if (n != B.n && m != B.m) throw EInvalidSize();
 	int m_ = Getm();
 	int n_ = B.Getn();
 	Matrix tmp(m_, n_);
@@ -68,7 +86,11 @@ double& Matrix::operator ()(int i, int j, double data)
 	}
 	return tmp;
 }
+
+
  Matrix Matrix::operator - (Matrix& B) {
+	 if (n != B.n && m != B.m) throw EInvalidSize();
+	 int m_ = Getm();
 	 int m_ = Getm();
 	 int n_ = Getn();
 	 Matrix tmp(m_, n_);
@@ -79,7 +101,10 @@ double& Matrix::operator ()(int i, int j, double data)
 	 }
 	 return tmp;
  }
+
+
  Matrix Matrix::operator * (Matrix& B) {
+	 if (m != B.n) throw EInvalidMull();
 	 int m_ = Getm();
 	 int n_ = B.Getn();
 	 Matrix tmp(m, n);
@@ -96,6 +121,8 @@ double& Matrix::operator ()(int i, int j, double data)
 	 }
 	 return tmp;
  }
+
+
  Matrix Matrix::operator * (double a) {
 	 Matrix tmp(m, n);
 	 for (int i = 0; i < m; i++) {
@@ -105,8 +132,10 @@ double& Matrix::operator ()(int i, int j, double data)
 	 }
 	 return tmp;
  }
+
+
  Matrix Matrix::operator / (double a) {
-	 //добавить искл
+	 if (a == 0) throw EdivisionZero();
 	 Matrix tmp(m, n);
 	 for (int i = 0; i < m; i++) {
 		 for (int j = 0; j < n; j++) {
@@ -115,8 +144,10 @@ double& Matrix::operator ()(int i, int j, double data)
 	 }
 	 return tmp;
  }
+
+
  double Matrix::trace() {
-	 //добавить искл
+	 if (n != m)  throw EInvalidQuadrate();
 	 double sum = 0;
 	 for (int i = 0; i < m; i++) {
 		 for (int j = 0; j < n; j++) {
@@ -127,17 +158,36 @@ double& Matrix::operator ()(int i, int j, double data)
 	 }
 	 return sum;
  }
+
+
  Matrix Matrix::triangular() {
-	 int countswap = 1;
-	 Matrix B(M);
-	 for (int i = 0; i < m; i++) {
-		 for (int j = 0; j < n; j++) {
-
+	 if (n != m)  throw EInvalidQuadrate();
+	 float r;
+	 for (int i = 0; i <= n-1; i++) {
+		 for (int j = i + 1; j <= n; j++) {
+			 r = M[j][i] / M[i][i];
+			 for (int k = 1; k <= n + 1; k++) {
+				 M[j][k] = M[j][k] - r * M[i][k];
+			 }
 		 }
-	}
+	 }
  }
-
-
+ Matrix Matrix::transpose() {
+	 int n = Getn();
+	 Matrix tmp(n, n);
+	 for (int i = 0; i < n; i++)
+		 for (int j = 0; j < n; j++)
+			 tmp.M[i][j] = M[j][i];
+	 return tmp;
+ }
+ std::ostream& operator << (ostream& s, Matrix& B) {
+	 for (int i = 0; i < B.Getm(); i++) {
+		 for (int j = 0; j < B.Getn(); j++)
+			 s << B(i,j) << "  ";
+		 s << "\n";
+	 }
+	 return s;
+ }
 Matrix::~Matrix() {
 	for (int i = 0; i < m; i++) delete[]M;
 	delete[]M;

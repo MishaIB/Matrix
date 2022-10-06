@@ -22,7 +22,7 @@ public:
 	void Print();
 	int Getm();
 	int Getn();
-	double& operator ()(int i, int j, double data);
+	double& operator ()(int i, int j);
 	Matrix operator + (Matrix& B);
 	Matrix operator - (Matrix& B);
 	Matrix operator * (Matrix& B);
@@ -30,5 +30,7 @@ public:
 	Matrix operator / (double a);
 	double trace();
 	Matrix triangular();
+	Matrix transpose();
+	friend std::ostream& operator << (std::ostream& s, const Matrix& matrix);
 	~Matrix();
 };
