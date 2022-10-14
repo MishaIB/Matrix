@@ -1,3 +1,11 @@
+
+#include "Exteption.h"
+#include "Matrix.h"
+#include <conio.h>
+#include <string>
+#include <iostream>
+#include <ostream>
+using namespace std;
 /* Вариант 2. Матрицы
 Класс матриц вещественных чисел произвольного размера.
 Как минимум, предоставить:
@@ -9,8 +17,148 @@
 • оператор деления матрицы на скаляр;
 • вычисление следа матрицы.
 ЗАДАЧА : Привести заданную квадратную матрицу А к нижнетреугольному виду. */
+int Get_key()
+{
+	int key = _getch();
+	if ((key == 0) || (key == 224))
+		key = _getch();
+	return key;
+}
+
+
+int Menu1()
+{
+	cout << endl << ("\nЗапустить программу - Enter\nВыход - Esc\n") << endl;
+	while (true)
+	{
+		int key = Get_key();
+		if ((key == 27) || (key == 13)) return key;
+	}
+}
+
+
+int Menu2()
+{
+	cout << "\nЧто вы хотите сделать?.\n\n"
+		"1 - выполнить сложение матриц\n"
+		"2 - выполнить вычитание матриц\n"
+		"3 - выполнить умножение матрицы на матрицу\n"
+		"4 - выполнить умножение матрицы на скаляр\n"
+		"5 - выполнить деление матрицы на скаляр\n"
+		"6 - вычислить след квадратной матрицы\n"
+		"7 - преобразовать квадратную матрицу к нижнетреугольному виду\n\n"
+		"Выход: Esc\n";
+
+
+	while (true)
+	{
+		int key = Get_key();
+		if ((key == 27) || (key > '0' && key <= '7'))
+			return key;
+	}
+}
+
+
+void SetData(Matrix& Mass,int m, int n) {
+	double value;
+	cout << "Введите значения\n";
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			cout << "[" << i << "][" << j << "]:";
+			cin >> value;
+			Mass(i, j, value);
+		}
+	}
+}
+
 int main() {
-
-
+	Matrix C,B;
+	setlocale(LC_ALL, "");
+	int column, row;
+	while (true) {
+		system("cls");
+		cout << "Введите размеры матрицы А (число столбцов и строк):";
+		cin >> column >> row;
+		Matrix A(column, row);
+		SetData(A, column, row);
+		cout << "Введите размеры матрицы B (число столбцов и строк):";
+		cin >> column >> row;
+		Matrix B(column, row);
+		SetData(B, column, row);
+		cout << "A:\n" << A << endl;
+		cout << "B:\n" << B << endl;
+		int m1 = Menu1();
+		if (m1 == 27) break;
+		while (true) {
+			int m2 = Menu2();
+			if (m2 == 27) break;
+			int scal;
+			switch (m2)
+			{
+			case 49:
+				system("cls");
+				cout << "Результат сложения матриц:\n";
+				try {
+					C = A + B;
+					cout << C;
+				}
+				catch (Exteption& er) { er.print(); }
+				break;
+			case 50:
+				system("cls");
+				cout << "Результат вычитания матриц:\n";
+				try {
+					C = A - B;
+					cout << C;
+				}
+				catch (Exteption& er) { er.print(); }
+				break;
+			case 51:
+				system("cls");
+				cout << "Результат умножения матриц:\n";
+				try {
+					C = A * B;
+					cout << C;
+				}
+				catch (Exteption& er) { er.print(); }
+				break;
+			case 52:
+				cout << "Введите скаляр:";
+				cin >> scal;
+				system("cls");
+				cout << "Результат умножение матрицы на скаляр:\n";
+				try {
+					C = A * scal;
+					cout << C;
+				}
+				catch (Exteption& er) { er.print(); }
+				break;
+			case 53:
+				system("cls");
+				cout << "Результат деления матрицы на скаляр:\n";
+				cout << "Введите скаляр:";
+				cin >> scal;
+				try {
+					C = A / scal;
+					cout << C;
+				}
+				catch (Exteption& er) { er.print(); }
+				break;
+			case 54:
+				system("cls");
+				cout << "Результат вычисления следа матрицы:\n";
+				cout<<A.trace();
+				break;
+			case 55:
+				system("cls");
+				cout << "Результат преобразования матрицы к нижнетреугольному виду:\n";
+				C=A.triangular();
+				cout << C;
+				C.transpose();
+				cout << C;
+				break;
+			}
+		}
+	}
 	return 0;
 }

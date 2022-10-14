@@ -1,9 +1,9 @@
 #pragma once
 using namespace std;
+
 class Exteption {
 public:
 	virtual void print() = 0;
-	virtual ~Exteption()=0;
 };
 
 

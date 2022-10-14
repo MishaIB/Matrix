@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Exteption.h"
+#include <locale.h>
 using namespace std;
 
 
