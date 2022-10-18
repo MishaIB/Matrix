@@ -17,7 +17,7 @@ using namespace std;
 • оператор деления матрицы на скаляр;
 • вычисление следа матрицы.
 ЗАДАЧА : Привести заданную квадратную матрицу А к нижнетреугольному виду. */
-int Get_key()
+int GetKey()
 {
 	int key = _getch();
 	if ((key == 0) || (key == 224))
@@ -31,7 +31,7 @@ int Menu1()
 	cout << endl << ("\nЗапустить программу - Enter\nВыход - Esc\n") << endl;
 	while (true)
 	{
-		int key = Get_key();
+		int key = GetKey();
 		if ((key == 27) || (key == 13)) return key;
 	}
 }
@@ -52,7 +52,7 @@ int Menu2()
 
 	while (true)
 	{
-		int key = Get_key();
+		int key = GetKey();
 		if ((key == 27) || (key > '0' && key <= '7'))
 			return key;
 	}
@@ -71,6 +71,16 @@ void SetData(Matrix& Mass,int m, int n) {
 	}
 }
 
+
+void RandValue(Matrix& Mass, int m, int n) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			Mass(i, j,rand()%9);
+		}
+	}
+}
+
+
 int main() {
 	Matrix C,B;
 	setlocale(LC_ALL, "");
@@ -84,7 +94,7 @@ int main() {
 		cout << "Введите размеры матрицы B (число столбцов и строк):";
 		cin >> column >> row;
 		Matrix B(column, row);
-		SetData(B, column, row);
+		RandValue(B, column, row);
 		cout << "A:\n" << A << endl;
 		cout << "B:\n" << B << endl;
 		int m1 = Menu1();
@@ -102,7 +112,7 @@ int main() {
 					C = A + B;
 					cout << C;
 				}
-				catch (Exteption& er) { er.print(); }
+				catch (Exteption& er) { er.Print(); }
 				break;
 			case 50:
 				system("cls");
@@ -111,7 +121,7 @@ int main() {
 					C = A - B;
 					cout << C;
 				}
-				catch (Exteption& er) { er.print(); }
+				catch (Exteption& er) { er.Print(); }
 				break;
 			case 51:
 				system("cls");
@@ -120,7 +130,7 @@ int main() {
 					C = A * B;
 					cout << C;
 				}
-				catch (Exteption& er) { er.print(); }
+				catch (Exteption& er) { er.Print(); }
 				break;
 			case 52:
 				cout << "Введите скаляр:";
@@ -131,7 +141,7 @@ int main() {
 					C = A * scal;
 					cout << C;
 				}
-				catch (Exteption& er) { er.print(); }
+				catch (Exteption& er) { er.Print(); }
 				break;
 			case 53:
 				system("cls");
@@ -142,20 +152,25 @@ int main() {
 					C = A / scal;
 					cout << C;
 				}
-				catch (Exteption& er) { er.print(); }
+				catch (Exteption& er) { er.Print(); }
 				break;
 			case 54:
 				system("cls");
 				cout << "Результат вычисления следа матрицы:\n";
-				cout<<A.trace();
+				try {
+					cout << A.Trace();
+				}
+				catch (Exteption& er) { er.Print(); }
 				break;
 			case 55:
 				system("cls");
-				cout << "Результат преобразования матрицы к нижнетреугольному виду:\n";
-				C=A.triangular();
-				cout << C;
-				C.transpose();
-				cout << C;
+				try {
+					cout << "Результат преобразования матрицы к нижнетреугольному виду:\n";
+					C = A.Triangular();
+					C.Transpose();
+					cout << C;
+				}
+				catch (Exteption& er) { er.Print(); }
 				break;
 			}
 		}

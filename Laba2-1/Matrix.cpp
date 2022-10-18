@@ -45,12 +45,12 @@ Matrix::Matrix(const Matrix* M_) {
 }
 
 
-int Matrix::Getm() {
+int Matrix::GetM() {
 	return m;
 }
 
 
-int Matrix::Getn() {
+int Matrix::GetN() {
 	return n;
 }
 
@@ -67,7 +67,7 @@ void Matrix::Print() {
 
 double& Matrix::operator ()(int i, int j)
 {
-	if ((i >= 0) && (i < m) && (j >= 0) && (j < n))
+	if ((i >= 0) || (i < m) || (j >= 0) || (j < n))
 		return M[i][j];
 	else throw EInvalidIndex();
 }
@@ -80,7 +80,7 @@ Matrix& Matrix::operator ()(int i, int j, double value)
 
  Matrix Matrix::operator + (Matrix& B) {
 
-	if (n != B.n && m != B.m) throw EInvalidSize();
+	if (n != B.n || m != B.m) throw EInvalidSize();
 	Matrix tmp(m, n);
 	for (int i = 0; i < m; i++) {
 		for (int j = 0; j < n; j++) {
@@ -92,9 +92,9 @@ Matrix& Matrix::operator ()(int i, int j, double value)
 
 
  Matrix Matrix::operator - (Matrix& B) {
-	 if (n != B.n && m != B.m) throw EInvalidSize();
-	 int m_ = Getm();
-	 int n_ = Getn();
+	 if (n != B.n || m != B.m) throw EInvalidSize();
+	 int m_ = GetM();
+	 int n_ = GetN();
 	 Matrix tmp(m_, n_);
 	 for (int i = 0; i < m_; i++) {
 		 for (int j = 0; j < n_; j++) {
@@ -107,8 +107,8 @@ Matrix& Matrix::operator ()(int i, int j, double value)
 
  Matrix Matrix::operator * (Matrix& B) {
 	 if (m != B.n) throw EInvalidMull();
-	 int m_ = Getm();
-	 int n_ = B.Getn();
+	 int m_ = GetM();
+	 int n_ = B.GetN();
 	 Matrix tmp(m, n);
 	 for (int i = 0; i < m_; i++)
 	 {
@@ -148,7 +148,7 @@ Matrix& Matrix::operator ()(int i, int j, double value)
  }
 
 
- double Matrix::trace() {
+ double Matrix::Trace() {
 	 if (n != m)  throw EInvalidQuadrate();
 	 double sum = 0;
 	 for (int i = 0; i < m; i++) {
@@ -162,7 +162,7 @@ Matrix& Matrix::operator ()(int i, int j, double value)
  }
 
 
- Matrix Matrix::triangular() {
+ Matrix Matrix::Triangular() {
 	 if (n != m)  throw EInvalidQuadrate();
 	 double r;
 	 for (int i = 0; i < n - 1; i++) {
@@ -175,7 +175,8 @@ Matrix& Matrix::operator ()(int i, int j, double value)
 	 }
 	 return *this;
  }
-void Matrix::transpose() {
+void Matrix::Transpose() {
+	if (n != m) throw EInvalidQuadrate();
 	double s;
 	for (int i = 0; i < n; i++)
 		for (int j = i + 1; j < n; j++) {

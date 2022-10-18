@@ -4,25 +4,25 @@
 using namespace std;
 
 
-void EInvalidSize::print(){
-	cout << endl << "Ошибка:\nОперация не вохможна. Размеры матриц не совпадают" << endl;
+void EInvalidSize::Print(){
+	cout << endl << "Ошибка:\nОперация не возможна. Размеры матриц не совпадают" << endl;
 }
 
 
-void EInvalidIndex::print() {
+void EInvalidIndex::Print() {
 	cout << endl << "Ошибка:\nОперация не возможна. Нет элемента расположенного по этим индексам " << endl;
 }
 
-void EInvalidMull::print(){
+void EInvalidMull::Print(){
 	cout << endl << "Ошибка:\nЧисло столбцов матрицы A не равно числу строк матрицы B" << endl;
 }
 
 
-void EInvalidQuadrate::print(){
+void EInvalidQuadrate::Print(){
 	cout << endl << "Ошибка:\nМатрица не квадратная" << endl;
 }
 
 
-void EdivisionZero::print(){
+void EdivisionZero::Print(){
 	cout << endl << "Ошибка:\nДеление на ноль" << endl;
 }

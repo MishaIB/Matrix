@@ -3,36 +3,36 @@ using namespace std;
 
 class Exteption {
 public:
-	virtual void print() = 0;
+	virtual void Print() = 0;
 };
 
 
 class EInvalidSize :public Exteption {
 public:
-	void print();
+	void Print();
 };
 
 
 class EInvalidIndex :public Exteption {
 public:
-	void print();
+	void Print();
 };
 
 
 class EInvalidMull :public Exteption {
 public:
-	void print();
+	void Print();
 };
 
 
 class EInvalidQuadrate :public Exteption {
 public:
-	void print();
+	void Print();
 };
 
 
 class EdivisionZero :public Exteption {
 public:
-	void print();
+	void Print();
 };
 

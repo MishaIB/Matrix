@@ -20,8 +20,8 @@ public:
 	Matrix(int m_, int n_);
 	Matrix(const Matrix* M_);
 	void Print();
-	int Getm();
-	int Getn();
+	int GetM();
+	int GetN();
 	double& operator ()(int i, int j);
 	Matrix& operator ()(int i, int j, double value);
 	Matrix operator + (Matrix& B);
@@ -29,8 +29,8 @@ public:
 	Matrix operator * (Matrix& B);
 	Matrix operator * (const double a);
 	Matrix operator / (const double a);
-	double trace();
-	Matrix triangular();
-	void transpose();
+	double Trace();
+	Matrix Triangular();
+	void Transpose();
 	friend std::ostream& operator << (std::ostream& s, const Matrix& matrix);
 };
