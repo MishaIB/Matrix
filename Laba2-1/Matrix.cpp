@@ -16,7 +16,7 @@ using namespace std;
 Matrix::Matrix() {
 	int m = 0;
 	int n = 0;
-	double**M = NULL;
+	double** M = NULL;
 }
 
 
@@ -25,32 +25,45 @@ Matrix::Matrix(int m_, int n_) {
 	this->m = m_;
 	M = new double* [m];
 	for (int i = 0; i < m; i++) {
-		M[i] = new double [n];
+		M[i] = new double[n];
 	}
 }
 
+Matrix::Matrix(int m_, int n_, double value) {
+	this->n = n_;
+	this->m = m_;
+	M = new double* [m];
+	for (int i = 0; i < m; i++) {
+		M[i] = new double[n];
+	}
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++) {
+			this->M[i][j] = value;
+		}
+}
 
-Matrix::Matrix(const Matrix* M_) {
-	m = M_->m;
-	n = M_->n;
+
+Matrix::Matrix(const Matrix& M_) {
+	m = M_.m;
+	n = M_.n;
 	M = new double* [m];
 	for (int i = 0; i < m; i++) {
 		M[i] = new double[n];
 	}
 	for (int i = 0; i < m; i++) {
-		for (int j = 0; n < j;j++) {
-			M[i][j] = M_->M[i][j];
+		for (int j = 0; j < n; j++) {
+			M[i][j] = M_.M[i][j];
 		}
 	}
 }
 
 
-int Matrix::GetM() {
+int Matrix::GetM()  {
 	return m;
 }
 
 
-int Matrix::GetN() {
+int Matrix::GetN()  {
 	return n;
 }
 
@@ -74,11 +87,11 @@ double& Matrix::operator ()(int i, int j)
 Matrix& Matrix::operator ()(int i, int j, double value)
 {
 	if ((i >= 0) && (i <= m) && (j >= 0) && (j <= n))
-		this->M[i][j]=value;
+		this->M[i][j] = value;
 	else throw EInvalidIndex();
 }
 
- Matrix Matrix::operator + (Matrix& B) {
+Matrix Matrix::operator + (const Matrix& B) {
 
 	if (n != B.n || m != B.m) throw EInvalidSize();
 	Matrix tmp(m, n);
@@ -91,90 +104,90 @@ Matrix& Matrix::operator ()(int i, int j, double value)
 }
 
 
- Matrix Matrix::operator - (Matrix& B) {
-	 if (n != B.n || m != B.m) throw EInvalidSize();
-	 int m_ = GetM();
-	 int n_ = GetN();
-	 Matrix tmp(m_, n_);
-	 for (int i = 0; i < m_; i++) {
-		 for (int j = 0; j < n_; j++) {
-			 tmp.M[i][j] = M[i][j] - B.M[i][j];
-		 }
-	 }
-	 return tmp;
- }
+Matrix Matrix::operator - (const Matrix& B) {
+	if (n != B.n || m != B.m) throw EInvalidSize();
+	int m_ = GetM();
+	int n_ = GetN();
+	Matrix tmp(m_, n_);
+	for (int i = 0; i < m_; i++) {
+		for (int j = 0; j < n_; j++) {
+			tmp.M[i][j] = M[i][j] - B.M[i][j];
+		}
+	}
+	return tmp;
+}
 
 
- Matrix Matrix::operator * (Matrix& B) {
-	 if (m != B.n) throw EInvalidMull();
-	 int m_ = GetM();
-	 int n_ = B.GetN();
-	 Matrix tmp(m, n);
-	 for (int i = 0; i < m_; i++)
-	 {
-		 for (int j = 0; j < m_; j++)
-		 {
-			 tmp.M[i][j] = 0;
-			 for (int k = 0; k < n_; k++)
-			 {
-				 tmp.M[i][j] += M[i][k] * B.M[k][j];
-			 }
-		 }
-	 }
-	 return tmp;
- }
+Matrix Matrix::operator * (const Matrix& B) {
+	if (m != B.n) throw EInvalidMull();
+	int m_ = GetM();
+	int n_ = B.n;
+	Matrix tmp(m, n);
+	for (int i = 0; i < m_; i++)
+	{
+		for (int j = 0; j < m_; j++)
+		{
+			tmp.M[i][j] = 0;
+			for (int k = 0; k < n_; k++)
+			{
+				tmp.M[i][j] += M[i][k] * B.M[k][j];
+			}
+		}
+	}
+	return tmp;
+}
 
 
- Matrix Matrix::operator * (const double a) {
-	 Matrix tmp(m, n);
-	 for (int i = 0; i < m; i++) {
-		 for (int j = 0; j < n; j++) {
-			 tmp.M[i][j] = M[i][j] * a;
-		 }
-	 }
-	 return tmp;
- }
+Matrix Matrix::operator * (const double a) {
+	Matrix tmp(m, n);
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			tmp.M[i][j] = M[i][j] * a;
+		}
+	}
+	return tmp;
+}
 
 
- Matrix Matrix::operator / (double a) {
-	 if (a == 0) throw EdivisionZero();
-	 Matrix tmp(m, n);
-	 for (int i = 0; i < m; i++) {
-		 for (int j = 0; j < n; j++) {
-			 tmp.M[i][j] = M[i][j] / a;
-		 }
-	 }
-	 return tmp;
- }
+Matrix Matrix::operator / (double a) {
+	if (a == 0) throw EdivisionZero();
+	Matrix tmp(m, n);
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			tmp.M[i][j] = M[i][j] / a;
+		}
+	}
+	return tmp;
+}
 
 
- double Matrix::Trace() {
-	 if (n != m)  throw EInvalidQuadrate();
-	 double sum = 0;
-	 for (int i = 0; i < m; i++) {
-		 for (int j = 0; j < n; j++) {
-			 if (i == j) {
-				 sum += M[i][j];
-			 }
-		 }
-	 }
-	 return sum;
- }
+double Matrix::Trace() {
+	if (n != m)  throw EInvalidQuadrate();
+	double sum = 0;
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (i == j) {
+				sum += M[i][j];
+			}
+		}
+	}
+	return sum;
+}
 
 
- Matrix Matrix::Triangular() {
-	 if (n != m)  throw EInvalidQuadrate();
-	 double r;
-	 for (int i = 0; i < n - 1; i++) {
-		 for (int j = i + 1; j < n; j++) {
-			 r = M[j][i] / M[i][i];
-			 for (int k = 0; k < n + 1; k++) {
-				 M[j][k] = M[j][k] - r * M[i][k];
-			 }
-		 }
-	 }
-	 return *this;
- }
+Matrix Matrix::Triangular() {
+	if (n != m)  throw EInvalidQuadrate();
+	double r;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			r = M[j][i] / M[i][i];
+			for (int k = 0; k < n + 1; k++) {
+				M[j][k] = M[j][k] - r * M[i][k];
+			}
+		}
+	}
+	return *this;
+}
 void Matrix::Transpose() {
 	if (n != m) throw EInvalidQuadrate();
 	double s;
@@ -184,15 +197,15 @@ void Matrix::Transpose() {
 			M[i][j] = M[j][i];
 			M[j][i] = s;
 		}
- }
- ostream& operator<< (ostream& s, const Matrix& matrix) {
+}
+ostream& operator<< (ostream& s, const Matrix& matrix) {
 
-	 for (int i = 0; i < matrix.m; i++) {
-		 for (int j = 0; j < matrix.n; j++)
-			 s << matrix.M[i][j] << " ";
-		 s << "\n";
-	 }
-	 return s;
- }
+	for (int i = 0; i < matrix.m; i++) {
+		for (int j = 0; j < matrix.n; j++)
+			s << matrix.M[i][j] << " ";
+		s << "\n";
+	}
+	return s;
+}
 
 

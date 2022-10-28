@@ -12,21 +12,22 @@
 #include <iostream>
 class Matrix {
 private:
-	int n;
-	int m;
-	double** M;
+	int n=0;
+	int m=0;
+	double** M=NULL;
 public:
 	Matrix();
 	Matrix(int m_, int n_);
-	Matrix(const Matrix* M_);
-	void Print();
+	Matrix(int m_, int n_, double value);
+	Matrix(const Matrix& M_);
+	void Print ();
 	int GetM();
 	int GetN();
 	double& operator ()(int i, int j);
 	Matrix& operator ()(int i, int j, double value);
-	Matrix operator + (Matrix& B);
-	Matrix operator - (Matrix& B);
-	Matrix operator * (Matrix& B);
+	Matrix operator + (const Matrix& B);
+	Matrix operator - (const Matrix& B);
+	Matrix operator * (const Matrix& B);
 	Matrix operator * (const double a);
 	Matrix operator / (const double a);
 	double Trace();
