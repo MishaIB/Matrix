@@ -40,7 +40,7 @@ int Menu1()
 
 int Menu2()
 {
-	cout << "\nЧто вы хотите сделать?.\n\n"
+	cout << "\nЧто вы хотите сделать?\n\n"
 		"1 - выполнить сложение матриц\n"
 		"2 - выполнить вычитание матриц\n"
 		"3 - выполнить умножение матрицы на матрицу\n"
@@ -55,6 +55,20 @@ int Menu2()
 	{
 		int key = GetKey();
 		if ((key == 27) || (key > '0' && key <= '7'))
+			return key;
+	}
+}
+
+
+int menu3() {
+	cout << "\nЧто вы хотите сделать со значениями матрицы A?\n\n"
+		"1 - изменить значения\n"
+		"2 - оставить эти\n"
+		"Выход: Esc\n";
+	while (true)
+	{
+		int key = GetKey();
+		if ((key == 27) || (key > '0' && key <= '2'))
 			return key;
 	}
 }
@@ -82,9 +96,9 @@ int IntCheck()
 		{
 			cin.clear();
 			while (cin.get() != '\n');
-			cout << "Ââåäèòå êîððåêòíîå çíà÷åíèå...\n";
+			cout << "Ошибка! Повторите ввод значения\n";
 		}
-		if (number <= 0) cout << "Ââåäèòå êîððåêòíîå çíà÷åíèå...\n";
+		if (number <= 0) cout << "Ошибка! Повторите ввод значения\n";
 
 	}
 
@@ -111,13 +125,26 @@ int main() {
 		column = IntCheck();
 		row = IntCheck();
 		double value = IntCheck();
-		Matrix A(column, row);
-		SetData(A, column, row);
+		Matrix A(column, row, value);
+		while (true) {
+			system("cls");
+			cout << "A:\n" << A << endl;
+			int m3 = menu3();
+			if (m3 == 27) break;
+			switch (m3)
+			{
+			case 49:
+				SetData(A, column, row);
+			case 50:
+				break;
+			}
+			break;
+		}
 		cout << "Введите размеры матрицы B (число столбцов и строк):";
 		cin >> column >> row;
 		Matrix B(column, row);
 		RandValue(B, column, row);
-		cout << "A:\n" << A <<setw(3) << endl;
+		cout << "A:\n" << A << endl;
 		cout << "B:\n" << B << endl;
 		int m1 = Menu1();
 		if (m1 == 27) break;

@@ -106,8 +106,8 @@ Matrix Matrix::operator + (const Matrix& B) {
 
 Matrix Matrix::operator - (const Matrix& B) {
 	if (n != B.n || m != B.m) throw EInvalidSize();
-	int m_ = GetM();
-	int n_ = GetN();
+	int m_ = m;
+	int n_ = n;
 	Matrix tmp(m_, n_);
 	for (int i = 0; i < m_; i++) {
 		for (int j = 0; j < n_; j++) {
