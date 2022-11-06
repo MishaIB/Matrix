@@ -58,12 +58,12 @@ Matrix::Matrix(const Matrix& M_) {
 }
 
 
-int Matrix::GetM()  {
+int Matrix::GetM() const {
 	return m;
 }
 
 
-int Matrix::GetN()  {
+int Matrix::GetN() const {
 	return n;
 }
 

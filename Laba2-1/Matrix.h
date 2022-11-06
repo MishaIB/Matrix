@@ -21,8 +21,8 @@ public:
 	Matrix(int m_, int n_, double value);
 	Matrix(const Matrix& M_);
 	void Print ();
-	int GetM();
-	int GetN();
+	int GetM() const;
+	int GetN() const;
 	double& operator ()(int i, int j);
 	Matrix& operator ()(int i, int j, double value);
 	Matrix operator + (const Matrix& B);
